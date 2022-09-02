@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jeon/git_upload/Octomap_builder/main.cpp
+stdio.h
+-
+fstream
+-
+sstream
+-
+vector
+-
+algorithm
+-
+k4a/k4a.h
+-
+math.h
+-
+opencv4/opencv2/core.hpp
+-
+opencv4/opencv2/opencv.hpp
+-
+
