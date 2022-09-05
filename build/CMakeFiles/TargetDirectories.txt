@@ -1,3 +1,0 @@
-/home/jeon/git_upload/Octomap_builder/build/CMakeFiles/rebuild_cache.dir
-/home/jeon/git_upload/Octomap_builder/build/CMakeFiles/octobuilder.dir
-/home/jeon/git_upload/Octomap_builder/build/CMakeFiles/edit_cache.dir

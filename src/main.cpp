@@ -10,52 +10,44 @@
 
 using namespace std;
 
-#include <opencv4/opencv2/core.hpp>
-// #include <opencv4/opencv2/calib3d.hpp>
-#include <opencv4/opencv2/opencv.hpp>
-// #include <opencv4/opencv2/rgbd.hpp>
-// #include <opencv4/opencv2/viz.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/opencv.hpp>
+
+#include "ros/ros.h"
+#include <pcl_ros/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
 using namespace cv;
-string type2str(int type) {
-  string r;
-
-  uchar depth = type & CV_MAT_DEPTH_MASK;
-  uchar chans = 1 + (type >> CV_CN_SHIFT);
-
-  switch ( depth ) {
-    case CV_8U:  r = "8U"; break;
-    case CV_8S:  r = "8S"; break;
-    case CV_16U: r = "16U"; break;
-    case CV_16S: r = "16S"; break;
-    case CV_32S: r = "32S"; break;
-    case CV_32F: r = "32F"; break;
-    case CV_64F: r = "64F"; break;
-    default:     r = "User"; break;
-  }
-
-  r += "C";
-  r += (chans+'0');
-
-  return r;
-}
-
-
-int main()
+//PointXYZRGB (float _x, float _y, float _z, std::uint8_t _r, std::uint8_t _g, std::uint8_t _b)
+typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloud;
+int main(int argc, char** argv)
 {
+    ros::init(argc,argv,"simplebox");
+    ros::NodeHandle nh;
+    ros::Publisher pub = nh.advertise<PointCloud> ("points2", 1);
+    PointCloud::Ptr msg (new PointCloud);
+    msg->header.frame_id = "map";
+    msg->height = msg->width = 1;
+    pcl::PointXYZRGB point = pcl::PointXYZRGB(255,0,0);
+    point.x=1;
+    point.y=2;
+    point.z=3;
+    msg->points.push_back(point);
+
     //https://github.com/microsoft/Azure-Kinect-Sensor-SDK/blob/develop/examples/transformation/main.cpp
     k4a_device_t device = NULL;
     k4a_device_configuration_t config = K4A_DEVICE_CONFIG_INIT_DISABLE_ALL;//처음에 모든 설정을 꺼둡니다.
-    config.depth_mode = K4A_DEPTH_MODE_NFOV_UNBINNED;//320x288
+    config.depth_mode = K4A_DEPTH_MODE_WFOV_UNBINNED;//320x288
     //NFOV : 좁은 FOV/ WFOC : 넓은 FOV
     //binned mode : 캡쳐하는 카메라의 레솔루션을 인전한 센서 픽셀을 결합하여 줄입니다.
-    config.camera_fps = K4A_FRAMES_PER_SECOND_30;
+    config.camera_fps = K4A_FRAMES_PER_SECOND_15;
     config.color_resolution = K4A_COLOR_RESOLUTION_720P;
     config.color_format = K4A_IMAGE_FORMAT_COLOR_BGRA32;
     config.synchronized_images_only = true;
 
 
     uint32_t device_count = k4a_device_get_installed_count();
-    cout<<"kinect camera 수 "<< device_count<<endl;
+    cout<<device_count<<endl;
     if (K4A_RESULT_SUCCEEDED != k4a_device_open(K4A_DEVICE_DEFAULT, &device))
     {
         printf("Failed to open device\n");
@@ -67,7 +59,7 @@ int main()
     k4a_device_get_calibration(device,config.depth_mode,config.color_resolution, &calibration);
     k4a_transformation_t transform_d2c = k4a_transformation_create(&calibration);
     k4a_device_start_cameras(device, &config);
-
+    ros::Rate loop_rate(4);
     // depth이미지 얻어오기
     while (waitKey(1) !=27)
     {
@@ -140,6 +132,13 @@ int main()
         k4a_image_release(depth_image);
         k4a_image_release(color_image);
         k4a_image_release(transformed_depth_image);
+
+
+        /// @brief 
+        pcl_conversions::toPCL(ros::Time::now(), msg->header.stamp);
+        pub.publish (*msg);
+        ros::spinOnce();
+        loop_rate.sleep();
     }
     
     return 0;
