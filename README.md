@@ -42,9 +42,13 @@ git clone https://github.com/OctoMap/octomap_mapping.git
 
 ### 실행
 ```
+# step 1
 sudo -s #관리자 권한 부여
 rosrun octomap_builder octobuilder
+
+# step 2
 roslaunch octomap_builder visodom_octomap.launch
+# rviz에서 marker array를 add하고,  
 ```
 
 ### 종료 

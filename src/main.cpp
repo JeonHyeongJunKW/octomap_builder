@@ -16,23 +16,15 @@ using namespace std;
 #include "ros/ros.h"
 #include <pcl_ros/point_cloud.h>
 #include <pcl/point_types.h>
+// #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl_conversions/pcl_conversions.h>
 using namespace cv;
-//PointXYZRGB (float _x, float _y, float _z, std::uint8_t _r, std::uint8_t _g, std::uint8_t _b)
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloud;
 int main(int argc, char** argv)
 {
     ros::init(argc,argv,"simplebox");
     ros::NodeHandle nh;
     ros::Publisher pub = nh.advertise<PointCloud> ("points2", 1);
-    PointCloud::Ptr msg (new PointCloud);
-    msg->header.frame_id = "map";
-    msg->height = msg->width = 1;
-    pcl::PointXYZRGB point = pcl::PointXYZRGB(255,0,0);
-    point.x=1;
-    point.y=2;
-    point.z=3;
-    msg->points.push_back(point);
 
     //https://github.com/microsoft/Azure-Kinect-Sensor-SDK/blob/develop/examples/transformation/main.cpp
     k4a_device_t device = NULL;
@@ -59,9 +51,39 @@ int main(int argc, char** argv)
     k4a_device_get_calibration(device,config.depth_mode,config.color_resolution, &calibration);
     k4a_transformation_t transform_d2c = k4a_transformation_create(&calibration);
     k4a_device_start_cameras(device, &config);
-    ros::Rate loop_rate(4);
+    
     // depth이미지 얻어오기
-    while (waitKey(1) !=27)
+    // 카메라 변환 메트릭스를 만들자. (u,v) ->(x,y,1) ->(x*z,y*z,z) : k^-1이 필요함.
+    k4a_calibration_intrinsic_parameters_t *intrinsics = &calibration.color_camera_calibration.intrinsics.parameters;
+    vector<float> _camera_matrix = {
+        intrinsics->param.fx, 0.f, intrinsics->param.cx, 0.f, intrinsics->param.fy, intrinsics->param.cy, 0.f, 0.f, 1.f
+    };
+    Mat camera_matrix = Mat(3, 3, CV_32F, &_camera_matrix[0]);
+    cout<<"Camera K"<<endl;
+    cout<<camera_matrix<<endl; 
+    vector<float> _dist_coeffs = { intrinsics->param.k1, intrinsics->param.k2, intrinsics->param.p1,
+                                   intrinsics->param.p2, intrinsics->param.k3, intrinsics->param.k4,
+                                   intrinsics->param.k5, intrinsics->param.k6 };
+    Mat dist_coeffs = Mat(8, 1, CV_32F, &_dist_coeffs[0]);
+    cout<<"Camera Distortion"<<endl;
+    cout<<dist_coeffs<<endl;
+    int camera_height = calibration.color_camera_calibration.resolution_height;
+    int camera_width = calibration.color_camera_calibration.resolution_width;
+    Mat PixelPoints = Mat::zeros(camera_height*camera_width,1,CV_32FC2);
+    for(int i=0; i<camera_height; i++)
+    {
+        for(int j=0; j<camera_width; j++)
+        {
+            PixelPoints.at<Vec2f>(i*camera_width+j,0)[0] = (float)j;
+            PixelPoints.at<Vec2f>(i*camera_width+j,0)[1] = (float)i;
+        }
+    }
+    Mat Undist_pixel;
+    undistortPoints(PixelPoints,Undist_pixel,camera_matrix,dist_coeffs,cv::Mat(),camera_matrix);
+    ros::Rate loop_rate(15);
+    Mat inv_inst = camera_matrix.inv();
+    
+    while (ros::ok())
     {
         k4a_capture_t capture = NULL;
         // k4a_image_t xy_table = NULL;
@@ -118,25 +140,78 @@ int main(int argc, char** argv)
                     , cv::Mat::AUTO_STEP);
         double min;
         double max;
-        cv::minMaxIdx(depth, &min, &max);
-        cv::Mat adjMap;
-        depth.convertTo(adjMap,CV_8UC1, 255 / (max-min), -min);
-        cv::Mat falseColorsMap;
-        applyColorMap(adjMap, falseColorsMap, cv::COLORMAP_AUTUMN);
 
         cv::cvtColor(color,color, COLOR_BGRA2BGR);//bgr이미지로 바꿉니다.
         
-        // cout<<type2str(depth.type())<<endl;
-        imshow("tst",color);
-        imshow("tstdfdsf",falseColorsMap);
+        // cout<<color<<endl;
+
+        /// pcl
+        imshow("test",color);
+        waitKey(1);
+        PointCloud::Ptr msg (new PointCloud);
+        msg->header.frame_id = "map";
+        
+        msg->height = 1;
+
+        float x_3d;
+        float y_3d;
+        int size =0;
+        Mat pixelPoint(3,1,CV_32F);
+        Mat Point_Width_depth;
+        for(int i=0; i<camera_height; i++)
+        {
+            for(int j=0; j<camera_width; j++)
+            {
+                uint16_t depth_i_j = depth.at<uint16_t>(i,j);
+                if(depth_i_j ==0)
+                {
+                    continue;
+                }
+                else
+                {
+                    float depth_meter = (1.0f / 1000.0f)*depth_i_j;
+                    pixelPoint.at<float>(0,0) = Undist_pixel.at<Vec2f>(i*camera_width+j,0)[0];
+                    pixelPoint.at<float>(1,0) = Undist_pixel.at<Vec2f>(i*camera_width+j,0)[1];
+                    pixelPoint.at<float>(2,0) = 1.0;
+                    Point_Width_depth =(inv_inst*pixelPoint)*depth_meter;
+                    pcl::PointXYZRGB point = pcl::PointXYZRGB((int)color.at<Vec3b>(i,j)[2],(int)color.at<Vec3b>(i,j)[1],(int)color.at<Vec3b>(i,j)[0]);
+                    // pcl::PointXYZRGB point;
+                    x_3d = Point_Width_depth.at<float>(0,0);
+                    y_3d = Point_Width_depth.at<float>(1,0);
+                    // cout<<x_3d*depth_meter*1000<<", "<<y_3d*depth_meter*1000<<", "<<depth_meter*1000<<endl;
+                    point.x=x_3d;
+                    point.y=y_3d;
+                    point.z=depth_meter;
+                    // point.r= 255;
+                    // point.g=255;
+                    // point.b=255;
+                    msg->points.push_back(point);
+                    size++;
+                }
+            }
+        }
+        msg->width = size;
+        // msg->width = 1;
+        // msg->height =1;
+        // msg->width = 100;
+        // // msg->points.resize(120);
+
+        // for(int i=0; i<100; i++)
+        // {
+        //     pcl::PointXYZRGB point;
+        //     point.x=(float)i;
+        //     point.y=2;
+        //     point.z=3;
+        //     point.r= 255;
+        //     point.g=255;
+        //     point.b=255;
+        //     msg->points.emplace_back(point);
+        // }
+        pcl_conversions::toPCL(ros::Time::now(), msg->header.stamp);
+        pub.publish (*msg);
         k4a_image_release(depth_image);
         k4a_image_release(color_image);
         k4a_image_release(transformed_depth_image);
-
-
-        /// @brief 
-        pcl_conversions::toPCL(ros::Time::now(), msg->header.stamp);
-        pub.publish (*msg);
         ros::spinOnce();
         loop_rate.sleep();
     }

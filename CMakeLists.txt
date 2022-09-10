@@ -31,3 +31,6 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable(octobuilder src/main.cpp)
 target_link_libraries(octobuilder PRIVATE ${OpenCV_LIBS} k4a::k4a ${catkin_LIBRARIES})
+
+add_executable(tf_runner src/tf_publisher.cpp)
+target_link_libraries(tf_runner ${catkin_LIBRARIES})
