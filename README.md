@@ -65,8 +65,13 @@ sudo - $username
 - PCL을 사용할 때, point cloud2 데이터를 어떻게 다뤄야하는지 자세한 설명이 부족하였다. 그래서 그 부분에서 애먹었다. 
 
 ### 진행사항
+
 22/09/01 : 레포지터리 생성
+
 22/09/02 : Azure kinect를 통한 rgb-d정보 얻어오기
+
 22/09/05 : ros와 연동하여, octomap 라이브러리 링크 
+
 22/09/10 : pcl을 사용하여, rviz상에 띄우는것에 성공
+
 22/09/11 : pointcloud2 형식을 octomap server에 보내는 것 성공
