@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <k4a/k4a.h>
 #include <math.h>
+#include <tf/transform_broadcaster.h>
 
 using namespace std;
 
@@ -22,10 +23,15 @@ using namespace cv;
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloud;
 int main(int argc, char** argv)
 {
+    
     ros::init(argc,argv,"simplebox");
     ros::NodeHandle nh;
-    ros::Publisher pub = nh.advertise<PointCloud> ("points2", 1);
+    ros::Publisher pub = nh.advertise<PointCloud> ("points", 1);
+    ros::Rate loop_rate(15);
 
+    //카메라 자세를 보낸다. tag : ros, tf
+    tf::TransformBroadcaster br_tf;
+    tf::Transform transform;
     //https://github.com/microsoft/Azure-Kinect-Sensor-SDK/blob/develop/examples/transformation/main.cpp
     k4a_device_t device = NULL;
     k4a_device_configuration_t config = K4A_DEVICE_CONFIG_INIT_DISABLE_ALL;//처음에 모든 설정을 꺼둡니다.
@@ -80,7 +86,7 @@ int main(int argc, char** argv)
     }
     Mat Undist_pixel;
     undistortPoints(PixelPoints,Undist_pixel,camera_matrix,dist_coeffs,cv::Mat(),camera_matrix);
-    ros::Rate loop_rate(15);
+    
     Mat inv_inst = camera_matrix.inv();
     
     while (ros::ok())
@@ -143,11 +149,6 @@ int main(int argc, char** argv)
 
         cv::cvtColor(color,color, COLOR_BGRA2BGR);//bgr이미지로 바꿉니다.
         
-        // cout<<color<<endl;
-
-        /// pcl
-        imshow("test",color);
-        waitKey(1);
         PointCloud::Ptr msg (new PointCloud);
         msg->header.frame_id = "map";
         
@@ -175,40 +176,25 @@ int main(int argc, char** argv)
                     pixelPoint.at<float>(2,0) = 1.0;
                     Point_Width_depth =(inv_inst*pixelPoint)*depth_meter;
                     pcl::PointXYZRGB point = pcl::PointXYZRGB((int)color.at<Vec3b>(i,j)[2],(int)color.at<Vec3b>(i,j)[1],(int)color.at<Vec3b>(i,j)[0]);
-                    // pcl::PointXYZRGB point;
                     x_3d = Point_Width_depth.at<float>(0,0);
                     y_3d = Point_Width_depth.at<float>(1,0);
-                    // cout<<x_3d*depth_meter*1000<<", "<<y_3d*depth_meter*1000<<", "<<depth_meter*1000<<endl;
                     point.x=x_3d;
                     point.y=y_3d;
                     point.z=depth_meter;
-                    // point.r= 255;
-                    // point.g=255;
-                    // point.b=255;
                     msg->points.push_back(point);
                     size++;
                 }
             }
         }
         msg->width = size;
-        // msg->width = 1;
-        // msg->height =1;
-        // msg->width = 100;
-        // // msg->points.resize(120);
-
-        // for(int i=0; i<100; i++)
-        // {
-        //     pcl::PointXYZRGB point;
-        //     point.x=(float)i;
-        //     point.y=2;
-        //     point.z=3;
-        //     point.r= 255;
-        //     point.g=255;
-        //     point.b=255;
-        //     msg->points.emplace_back(point);
-        // }
         pcl_conversions::toPCL(ros::Time::now(), msg->header.stamp);
         pub.publish (*msg);
+
+        //추정된 카메라 위치 보내기 map에 대한 카메라 위치
+        transform.setOrigin( tf::Vector3(0, 0.0, 0.0) );
+        transform.setRotation( tf::Quaternion(0, 0, 0, 1) );
+        br_tf.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "camera"));
+
         k4a_image_release(depth_image);
         k4a_image_release(color_image);
         k4a_image_release(transformed_depth_image);

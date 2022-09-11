@@ -38,6 +38,7 @@ sudo apt-get install ros-melodic-octomap-ros ros-melodic-octomap-mapping
 roscd catkin_ws/src
 git clone https://github.com/JeonHyeongJunKW/octomap_builder.git
 git clone https://github.com/OctoMap/octomap_mapping.git
+cd ../ && catkin_make
 ```
 
 ### 실행
