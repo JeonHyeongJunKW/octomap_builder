@@ -19,6 +19,9 @@ using namespace std;
 #include <pcl/point_types.h>
 // #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl_conversions/pcl_conversions.h>
+//-----------VO------------------
+#include <System_SLAM.h>
+
 using namespace cv;
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloud;
 int main(int argc, char** argv)
@@ -52,7 +55,7 @@ int main(int argc, char** argv)
         k4a_device_close(device);
         return 1;
     }
-
+    
     k4a_calibration_t calibration; // calibration정보를 넣는 구조체
     k4a_device_get_calibration(device,config.depth_mode,config.color_resolution, &calibration);
     k4a_transformation_t transform_d2c = k4a_transformation_create(&calibration);
@@ -88,7 +91,8 @@ int main(int argc, char** argv)
     undistortPoints(PixelPoints,Undist_pixel,camera_matrix,dist_coeffs,cv::Mat(),camera_matrix);
     
     Mat inv_inst = camera_matrix.inv();
-    
+    vector<double> additional_data;
+    System vo_module(TYPE_RGBD,camera_matrix,dist_coeffs,additional_data);
     while (ros::ok())
     {
         k4a_capture_t capture = NULL;

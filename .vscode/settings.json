@@ -10,7 +10,13 @@
         "hash_map": "cpp",
         "hash_set": "cpp",
         "initializer_list": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "cstdlib": "cpp",
+        "*.ipp": "cpp",
+        "chrono": "cpp",
+        "system_error": "cpp",
+        "typeinfo": "cpp",
+        "nonlinearoptimization": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/jeon/catkin_ws/devel/lib/python2.7/dist-packages",

@@ -20,14 +20,18 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-
-
 find_package(k4a 1.3.0 QUIET)
 include_directories(${K4A_INCLUDE_DIRS})
 
 set(OpenCV_DIR /usr/local/lib/cmake/opencv4/)
 find_package(OpenCV)
-include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${OpenCV_INCLUDE_DIRS} include)
 
-add_executable(octobuilder src/main.cpp)
+add_executable(octobuilder main.cpp)
+target_sources(octobuilder PRIVATE ${PROJECT_SOURCE_DIR}/src/DataManager.cpp 
+${PROJECT_SOURCE_DIR}/src/Frame.cpp
+${PROJECT_SOURCE_DIR}/src/MapPoint.cpp
+${PROJECT_SOURCE_DIR}/src/System_SLAM.cpp
+${PROJECT_SOURCE_DIR}/src/Tracking.cpp)
 target_link_libraries(octobuilder PRIVATE ${OpenCV_LIBS} k4a::k4a ${catkin_LIBRARIES})
+

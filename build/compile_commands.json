@@ -1,8 +1,38 @@
 [
 {
   "directory": "/home/jeon/catkin_octo/src/octomap_builder/build",
-  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"octomap_builder\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.8 -I/usr/include/vtk-6.3 -I/usr/include/freetype2 -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu -I/usr/include/hdf5/openmpi -I/usr/include/libxml2 -I/usr/include/jsoncpp -I/usr/include/tcl -I/usr/include/ni -I/usr/include/openni2 -isystem /usr/local/include/opencv4  -g   -std=gnu++11 -o CMakeFiles/octobuilder.dir/src/main.cpp.o -c /home/jeon/catkin_octo/src/octomap_builder/src/main.cpp",
-  "file": "/home/jeon/catkin_octo/src/octomap_builder/src/main.cpp"
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"octomap_builder\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.8 -I/usr/include/vtk-6.3 -I/usr/include/freetype2 -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu -I/usr/include/hdf5/openmpi -I/usr/include/libxml2 -I/usr/include/jsoncpp -I/usr/include/tcl -I/usr/include/ni -I/usr/include/openni2 -isystem /usr/local/include/opencv4 -I../include  -g   -std=gnu++11 -o CMakeFiles/octobuilder.dir/main.cpp.o -c /home/jeon/catkin_octo/src/octomap_builder/main.cpp",
+  "file": "/home/jeon/catkin_octo/src/octomap_builder/main.cpp"
+},
+
+{
+  "directory": "/home/jeon/catkin_octo/src/octomap_builder/build",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"octomap_builder\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.8 -I/usr/include/vtk-6.3 -I/usr/include/freetype2 -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu -I/usr/include/hdf5/openmpi -I/usr/include/libxml2 -I/usr/include/jsoncpp -I/usr/include/tcl -I/usr/include/ni -I/usr/include/openni2 -isystem /usr/local/include/opencv4 -I../include  -g   -std=gnu++11 -o CMakeFiles/octobuilder.dir/src/DataManager.cpp.o -c /home/jeon/catkin_octo/src/octomap_builder/src/DataManager.cpp",
+  "file": "/home/jeon/catkin_octo/src/octomap_builder/src/DataManager.cpp"
+},
+
+{
+  "directory": "/home/jeon/catkin_octo/src/octomap_builder/build",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"octomap_builder\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.8 -I/usr/include/vtk-6.3 -I/usr/include/freetype2 -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu -I/usr/include/hdf5/openmpi -I/usr/include/libxml2 -I/usr/include/jsoncpp -I/usr/include/tcl -I/usr/include/ni -I/usr/include/openni2 -isystem /usr/local/include/opencv4 -I../include  -g   -std=gnu++11 -o CMakeFiles/octobuilder.dir/src/Frame.cpp.o -c /home/jeon/catkin_octo/src/octomap_builder/src/Frame.cpp",
+  "file": "/home/jeon/catkin_octo/src/octomap_builder/src/Frame.cpp"
+},
+
+{
+  "directory": "/home/jeon/catkin_octo/src/octomap_builder/build",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"octomap_builder\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.8 -I/usr/include/vtk-6.3 -I/usr/include/freetype2 -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu -I/usr/include/hdf5/openmpi -I/usr/include/libxml2 -I/usr/include/jsoncpp -I/usr/include/tcl -I/usr/include/ni -I/usr/include/openni2 -isystem /usr/local/include/opencv4 -I../include  -g   -std=gnu++11 -o CMakeFiles/octobuilder.dir/src/MapPoint.cpp.o -c /home/jeon/catkin_octo/src/octomap_builder/src/MapPoint.cpp",
+  "file": "/home/jeon/catkin_octo/src/octomap_builder/src/MapPoint.cpp"
+},
+
+{
+  "directory": "/home/jeon/catkin_octo/src/octomap_builder/build",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"octomap_builder\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.8 -I/usr/include/vtk-6.3 -I/usr/include/freetype2 -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu -I/usr/include/hdf5/openmpi -I/usr/include/libxml2 -I/usr/include/jsoncpp -I/usr/include/tcl -I/usr/include/ni -I/usr/include/openni2 -isystem /usr/local/include/opencv4 -I../include  -g   -std=gnu++11 -o CMakeFiles/octobuilder.dir/src/System_SLAM.cpp.o -c /home/jeon/catkin_octo/src/octomap_builder/src/System_SLAM.cpp",
+  "file": "/home/jeon/catkin_octo/src/octomap_builder/src/System_SLAM.cpp"
+},
+
+{
+  "directory": "/home/jeon/catkin_octo/src/octomap_builder/build",
+  "command": "/usr/bin/c++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"octomap_builder\\\" -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.8 -I/usr/include/vtk-6.3 -I/usr/include/freetype2 -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent -I/usr/lib/x86_64-linux-gnu/openmpi/include/openmpi/opal/mca/event/libevent2022/libevent/include -I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/python2.7 -I/usr/include/x86_64-linux-gnu -I/usr/include/hdf5/openmpi -I/usr/include/libxml2 -I/usr/include/jsoncpp -I/usr/include/tcl -I/usr/include/ni -I/usr/include/openni2 -isystem /usr/local/include/opencv4 -I../include  -g   -std=gnu++11 -o CMakeFiles/octobuilder.dir/src/Tracking.cpp.o -c /home/jeon/catkin_octo/src/octomap_builder/src/Tracking.cpp",
+  "file": "/home/jeon/catkin_octo/src/octomap_builder/src/Tracking.cpp"
 },
 
 {

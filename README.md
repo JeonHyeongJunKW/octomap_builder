@@ -55,7 +55,7 @@ roslaunch octomap_builder visodom_octomap.launch
 ### 종료 
 - esc버튼을 화면에서 누르고, 이미지 종료
 ```
-sudo - $username
+su - $username
 ```
 ### 어려웠던점
 
