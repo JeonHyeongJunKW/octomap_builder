@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/jeon/catkin_octo/src/octomap_builder/build/devel/setup.sh

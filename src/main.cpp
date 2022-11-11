@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     ros::init(argc,argv,"simplebox");
     ros::NodeHandle nh;
     ros::Publisher pub = nh.advertise<PointCloud> ("points", 1);
-    ros::Rate loop_rate(15);
+    ros::Rate loop_rate(1);
 
     //카메라 자세를 보낸다. tag : ros, tf
     tf::TransformBroadcaster br_tf;
@@ -144,13 +144,10 @@ int main(int argc, char** argv)
                     CV_16U,
                     (void *)depth_buffer
                     , cv::Mat::AUTO_STEP);
-        double min;
-        double max;
-
         cv::cvtColor(color,color, COLOR_BGRA2BGR);//bgr이미지로 바꿉니다.
         
         PointCloud::Ptr msg (new PointCloud);
-        msg->header.frame_id = "map";
+        msg->header.frame_id = "camera";
         
         msg->height = 1;
 

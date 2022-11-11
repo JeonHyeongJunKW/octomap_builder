@@ -2,7 +2,7 @@
     <group ns="visodom">
         <node pkg="rviz" name="rviz" type="rviz" args="-d $(find octomap_builder)/rviz/octomap_builder.rviz"/>
         <node pkg="octomap_server" name="octomap_color_server_node" type="octomap_color_server_node">
-            <param name="resolution" value="0.01" />
+            <param name="resolution" value="0.05" />
             <param name="frame_id" type="string" value="map" />
             <param name="height_map" value="false" />
             <param name="colored_map" value="true" />
