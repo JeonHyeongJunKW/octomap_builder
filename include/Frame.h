@@ -15,6 +15,9 @@ class Frame
     Frame(Mat Image);
     Frame(Mat leftImage, Mat rightImage);
     Frame(Mat Image, Mat deptImage, double DepthFactor);
+
+    int id;
+    
 };
 
 #endif

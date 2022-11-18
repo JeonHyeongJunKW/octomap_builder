@@ -17,7 +17,11 @@ class tracker
                 vector<double> other_param);
     void trackImageMono(Mat Image);
     void trackImageStereo(Mat leftImage, Mat rightImage);
-    void trackImageRGBD(Mat Image, Mat deptImage);
+    void trackImageRGBD(Mat Image, Mat depthImage);
+    Manager* mpManager;
+    Mat distortin_param; //8x1
+    Mat intrinsic_param; //3x3
+    vector<double> other_param;
 };
 
 #endif

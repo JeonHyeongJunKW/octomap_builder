@@ -7,7 +7,7 @@ Manager::Manager()
 
 Manager::Manager(bool type)
 {
-    
+    this->type = type;
 }
 
 void Manager::AddNewFrame(Frame f)

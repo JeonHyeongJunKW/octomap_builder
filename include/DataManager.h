@@ -31,6 +31,7 @@ class Manager
     int frame_size =0;
     int mp_size =0;
     int deleted_mp_size =0;
+    int type;
 };
 
 #endif

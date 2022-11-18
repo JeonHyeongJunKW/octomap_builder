@@ -92,6 +92,8 @@ int main(int argc, char** argv)
     
     Mat inv_inst = camera_matrix.inv();
     vector<double> additional_data;
+
+    //SLAM initalize
     System vo_module(TYPE_RGBD,camera_matrix,dist_coeffs,additional_data);
     while (ros::ok())
     {
@@ -149,7 +151,7 @@ int main(int argc, char** argv)
                     (void *)depth_buffer
                     , cv::Mat::AUTO_STEP);
         cv::cvtColor(color,color, COLOR_BGRA2BGR);//bgr이미지로 바꿉니다.
-        
+        vo_module.registerImageRGBD(color,depth);
         PointCloud::Ptr msg (new PointCloud);
         msg->header.frame_id = "camera";
         
