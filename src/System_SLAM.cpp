@@ -19,7 +19,6 @@ System::System(int type,
 {
     m_intrinsic_param = intrinsic_param; // 3x3
     m_distortion_param = distortion_param; //8x1
-    
     mpTracker = new tracker(type,intrinsic_param,distortion_param,other_param);
     mpManager = new Manager(type);
     mpTracker->mpManager = this->mpManager;//데이터 매니저를 등록합니다.

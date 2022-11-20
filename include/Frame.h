@@ -12,12 +12,20 @@ class Frame
     public:
 
     Frame();
-    Frame(Mat Image);
-    Frame(Mat leftImage, Mat rightImage);
-    Frame(Mat Image, Mat deptImage, double DepthFactor);
+    Frame(Mat Image, Mat intrinsicParam, Mat distortionParam);
+    Frame(Mat leftImage, Mat rightImage, Mat intrinsicParam, Mat distortionParam);
+    Frame(Mat Image, Mat deptImage, double DepthFactor, Mat intrinsicParam, Mat distortionParam);
 
     int id;
-    
+    Mat depthImage;
+    Mat RGBImage;
+    double depthfactor;
+
+    Mat intrinsicParam;
+    Mat distortionParam;
+    vector<KeyPoint> mKps;
+    Mat mkp_decs;
+    vector<int> MapPointIdx;
 };
 
 #endif

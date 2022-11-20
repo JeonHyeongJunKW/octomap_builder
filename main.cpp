@@ -92,7 +92,8 @@ int main(int argc, char** argv)
     
     Mat inv_inst = camera_matrix.inv();
     vector<double> additional_data;
-
+    double depth_factor =1000.0;
+    additional_data.push_back(1000.0);
     //SLAM initalize
     System vo_module(TYPE_RGBD,camera_matrix,dist_coeffs,additional_data);
     while (ros::ok())

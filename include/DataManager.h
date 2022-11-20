@@ -32,6 +32,10 @@ class Manager
     int mp_size =0;
     int deleted_mp_size =0;
     int type;
+
+    Mat Undist_PixelPoints;
+    // 왜곡되지 않은 픽셀포인트를 구해야함
+    // Todo
 };
 
 #endif

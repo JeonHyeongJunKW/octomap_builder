@@ -79,3 +79,5 @@ su - $username
 22/09/11 : pointcloud2 형식을 octomap server에 보내는 것 성공
 
 22/11/18 : SLAM : 프레임 생성 및 등록기능추가
+
+22/11/20 : SLAM : 맵포인트 등록 기능 추가(1)
